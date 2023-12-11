@@ -1,0 +1,22 @@
+[
+    {
+      "title": "Projekat 1",
+      "tag": ["C#", "Web"],
+      "text": "Ovaj projekat uključuje razvoj web aplikacije koristeći C# kao backend tehnologiju.",
+      "imageURL": "https://example.com/slika1.jpg"
+    },
+    {
+      "title": "Projekat 2",
+      "tag": ["Python", "Data Science"],
+      "tekst": "Analiza podataka i vizualizacija korišćenjem Pythona i odgovarajućih biblioteka.",
+      "imageURL": "https://example.com/slika2.jpg"
+    },
+    {
+      "title": "Projekat 3",
+      "tag": ["C++", "Igre"],
+      "tekst": "Razvoj jednostavne igre koristeći C++ i OpenGL.",
+      "imageURL": "https://example.com/slika3.jpg"
+    }
+]
+  
+  
