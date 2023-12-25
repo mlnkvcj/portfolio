@@ -1,16 +1,190 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <title>Pretraga projekata</title>
-</head>
-<body>
-    <div id="tag-checkboxes"></div>
-    <div id="project-list"></div>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jovan Milinković</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="projects.js"></script>
+    <script>
+        const Tagovi = []
 
-    <script src="scripts.js"></script>
-</body>
+        function replaceSpecial(item){
+          let item1 = item.replace("#","sharp").replace("++","plusplus")
+          return item1
+        }
+
+        function handleCheck(checkbox){
+          targetClass = checkbox.getAttribute('data-target-class')
+          console.log(targetClass)
+          if (checkbox.checked == true){
+            $("."+targetClass).closest("div.card").show()
+          }
+          else{
+            $("."+targetClass).closest("div.card").hide()
+          }
+        }
+
+        const fill = (item) =>{
+          for(let i=0; i<item.tag.length; i++){
+                if(!Tagovi.includes(item.tag[i])){
+                  Tagovi.push(item.tag[i])
+                }
+            }
+        }
+
+        const fillTagovi = (list) =>{
+          list.forEach(element => {
+                fill(element)
+            });
+        }
+
+        const renderBox = (item) =>{
+          $Tag = $('<div class=" form-check form-check-inline w-auto"></div>')
+          $checkBox = $(`<input class="form-check-input mx-1" data-target-class="${replaceSpecial(item)}" onclick = "handleCheck(this)" id="${replaceSpecial(item)}-selector" type="checkbox" value="" checked>
+                <label class="form-check-label" for="${replaceSpecial(item)}-selector">
+                  ${item}
+                </label>`)
+          $Tag.append($checkBox)
+          return $Tag
+        }
+
+        const renderCheckBoxes = (list) =>{
+            list.forEach(element =>{
+              $("#tag-checkboxes").append(renderBox(element))
+            })
+        }
+
+        const renderCards = (item) => {
+            $card = $(`<div class='card col w-100 my-2'></div>`)
+            $cardTitle = $(`<h5 class = "card-title d-flex flex-column align-items-center">${item.title}</h5>`)
+            $cardBody = $("<div class='card-body d-flex flex-column align-items-center gap-3'></div>")
+            $cardBadgeSec = $("<div class='row d-flex flex-row align-items-center gap-1'></div>")
+            $cardText = $(`<p class="card-text">${item.text}</p>`)
+            $card.append($cardTitle)
+            $card.append($cardBody)
+            $cardBody.append($cardText)
+            $cardBody.append($cardBadgeSec)
+            
+            for(let i=0; i<item.tag.length; i++){
+                $badge = $(`<span class='badge bg-primary w-auto ${replaceSpecial(item.tag[i])}'>${item.tag[i]}</span>`)
+                $cardBadgeSec.append($badge)
+            }
+            $cardImageURL = $(`<span class='badge bg-success w-auto'><a href = "${item.imageURL}">Link za sliku</a></span>`)
+            $cardBody.append($cardImageURL)
+            return $card
+        }
+
+        const renderProjectList = (list) =>{
+            list.forEach(element => {
+                $("#project-cards").append(renderCards(element))
+            });
+        }
+
+        $(document).ready(() =>{
+            fillTagovi(projects)
+            console.log(Tagovi)
+            renderCheckBoxes(Tagovi)
+            renderProjectList(projects)
+        })
+    </script>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #171c28;
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+      }
+      .navbar {
+        background-color: #171c28;
+      }
+      .navbar-brand {
+        color: #fff;
+        font-size: xx-large;
+      }
+      .navbar-toggler-icon {
+        background-color: #171c28;
+      }
+      .navbar-nav .nav-link {
+        color: #fff;
+      }
+      .btn {
+        color: #4caf50;
+        border: 2px solid #fff;
+        border-radius: 25px;
+        width: 100%;
+        margin-top: 10px;
+        text-align: center;
+      }
+      .btn:hover {
+        background-color: #4caf50;
+        border-color: #4caf50;
+      }
+      .cool-font {
+        font-size: 24px;
+        margin-top: 30px;
+        text-align: center;
+      }
+      .cool-font-left {
+        font-size: 24px;
+        margin-top: 30px;
+        text-align: left;
+      }
+      .image {
+        max-width: 100%;
+        margin-top: 20px;
+      }
+      .rounded1{
+        border-radius: 50% !important;
+      }
+      .start-text{
+        align-self: center;
+      }
+      .nav-item{
+        display: flex;
+      }
+      .br{
+        border-radius: 10%;
+      }
+      .big_image{
+        max-width: 20%;
+      }
+      a{
+        text-decoration: none;
+        color: white;
+      }
+    </style>
+  </head>
+    <body>
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <a class="navbar-brand" href="#">Jovan Milinković</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item ">
+                <a class="nav-link btn" href="portfolio.html">Home</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="col-lg-12 text-center d-flex flex-column">
+        <h2 class="section-heading text-uppercase">Moji projekti</h2>
+        <div class="col-md-8 cool-font align-self-center">
+            <div id="tag-checkboxes" class="row"></div>
+            <div id="project-cards" class="col"></div>
+        </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    </body>
 </html>
-
